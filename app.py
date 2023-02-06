@@ -78,5 +78,3 @@ if download:
     • Ingredient shopping list below and available in csv format when clicking "Download full csv file" URL above:
     """)
     st.dataframe(df_download)
-
-    # TODO: give user frontend status bar when scraping is happening; this could be doable using stqdm package
