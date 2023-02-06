@@ -1,7 +1,6 @@
 pandas==1.3.5
 numpy==1.23.5
 selenium
-tqdm==4.64.1
 stqdm==0.0.5
 streamlit
 webdriver-manager
