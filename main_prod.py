@@ -69,6 +69,12 @@ def generate_permutations(cities, days, start_city, end_city, start_date, takeof
         (start_city,) + p + (end_city,) for p in itertools.permutations(cities)
     ]
 
+    for i, day in enumerate(days):
+        try:
+            days[i] = float(day)
+        except ValueError:
+            days[i] = 0
+
     days = np.array([0]+days, dtype=np.float32)
     flight_dates = pd.to_datetime(start_date) + pd.to_timedelta(np.array([0] + days).cumsum(), unit="D")
 
