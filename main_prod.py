@@ -171,13 +171,15 @@ def scrape_permutations(urls):
             ##################
             ##################
             # Get prices:
-            prices = driver.find_elements_by_xpath(xp_prices)
+            # prices = driver.find_elements_by_xpath(xp_prices)
+            prices = driver.find_elements("xpath", xp_prices)
             prices_list = [price.text.replace('$','') for price in prices if price.text != '']
             prices_list = [price.replace(',','') for price in prices_list]
             prices_list = list(map(float, prices_list))
 
             if not prices_list:
-                prices = driver.find_elements_by_xpath(xp_prices_2)
+                # prices = driver.find_elements_by_xpath(xp_prices_2)
+                prices = driver.find_elements("xpath", xp_prices_2)
                 prices_list = [price.text.replace('$','') for price in prices if price.text != '']
                 prices_list = [price.replace(',','') for price in prices_list]
                 prices_list = list(map(float, prices_list))
@@ -188,13 +190,15 @@ def scrape_permutations(urls):
             ##################
             # Get links:        
             data = []
-            elems = driver.find_elements_by_xpath(xp_urls)
+            # elems = driver.find_elements_by_xpath(xp_urls)
+            elems = driver.find_elements("xpath", xp_urls)
 
             for elem in elems:
                 data.append(elem.get_attribute("href"))
 
             if not data:
-                elems = driver.find_elements_by_xpath(xp_urls_2)
+                # elems = driver.find_elements_by_xpath(xp_urls_2)
+                elems = driver.find_elements("xpath", xp_urls_2)
 
                 for elem in elems:
                     data.append(elem.get_attribute("href"))
