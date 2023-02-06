@@ -151,7 +151,7 @@ def scrape_permutations(urls):
             chrome_options = webdriver.ChromeOptions()
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--user-agent=' + agents[(requests%len(agents))] + '"')
-            # chrome_options.add_experimental_option('useAutomationExtension', False)
+            chrome_options.add_experimental_option('useAutomationExtension', False)
 
             # driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=executable_path)
             # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
