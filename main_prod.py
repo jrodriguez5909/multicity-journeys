@@ -156,8 +156,7 @@ def scrape_permutations(urls):
             # service = Service(GeckoDriverManager().install())
             # driver = webdriver.Firefox(firefox_options=firefoxOptions, executable_path=service)
 
-            driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
-            # driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(), chrome_options=chrome_options)
+            driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(), chrome_options=chrome_options)
 
             driver.implicitly_wait(10)
             driver.get(url)
