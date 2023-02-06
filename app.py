@@ -7,12 +7,12 @@ from stqdm import stqdm
 
 st.write("""# Optimize your Multi-city Journey""")
 st.image("https://www.visualcapitalist.com/wp-content/uploads/2022/09/CP-Adam-Symington-Mapping-Airways-Main.png", caption="Finding the Optimal Multi-city Flight Route")
-st.write("[See this app's GitHub ReadMe file for more info](%s)" % "https://github.com/jrodriguez5909/RecipeScraper#top-daily-stock-losers--trading-opportunities")
+st.write("Read this app's **[GitHub ReadMe file](https://github.com/jrodriguez5909/multicity-journeys)** and/or its **[Medium article](https://medium.com/@june.rodriguez/finding-an-optimal-flight-journey-using-selenium-b021df54f64b)** for more info")
 st.write("""
 ## **App Instructions:**
-1. Populate the text box below with URLs for recipes you'd like to gather ingredient from - separate the URLs with commas e.g., https://www.hellofresh.nl/recipes/chicken-parmigiana-623c51bd7ed5c074f51bbb10, https://www.hellofresh.nl/recipes/quiche-met-broccoli-en-oude-kaas-628665b01dea7b8f5009b248
-2. Click **Grab ingredient list** to kick off the web scraping and creation of the ingredient shopping list dataset.
-3. Click **Download full csv file** link below if you'd like to download the ingredient shopping list dataset as a csv file.
+1. Populate the **`Required User Inputs`** section below
+2. Populate the **`Optional User Inputs`** section below if you'd like to only see results within a certain timeframe  
+3. Click the **`Show me all possible flights!`** button to kick-off the data pull. Note each iteration takes about 30 seconds to run so keep an eye on the status bar 
 """)
 
 st.write("""
