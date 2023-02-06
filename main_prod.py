@@ -136,10 +136,10 @@ def scrape_permutations(urls):
             # options.add_argument('--disable-gpu')
             # options.add_argument('--headless')
 
-            agents = ["Firefox/66.0.3","Chrome/73.0.3683.68","Edge/16.16299"]
+            # agents = ["Firefox/66.0.3","Chrome/73.0.3683.68","Edge/16.16299"]
             chrome_options = webdriver.ChromeOptions()
             chrome_options.add_argument('--headless')
-            chrome_options.add_argument('--user-agent=' + agents[(requests%len(agents))] + '"')
+            # chrome_options.add_argument('--user-agent=' + agents[(requests%len(agents))] + '"')
             chrome_options.add_experimental_option('useAutomationExtension', False)
 
             # driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=executable_path)
