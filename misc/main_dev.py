@@ -49,7 +49,7 @@ def generate_permutations(cities, days, start_city, end_city, start_date, takeof
     • end_city: string of the city you're ending your journey in, probably the same as start_city e.g., 'Amsterdam'
     • start_date: string of the date the journey is starting on in 'YYYY-MM-DD' format e.g., '2023-02-15'
     """
-    with open("iata_codes.json") as f:
+    with open("../iata_codes.json") as f:
         iata = json.load(f)
 
     permutations = [
