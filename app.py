@@ -12,7 +12,7 @@ st.write("""
 ## **App Instructions:**
 1. Populate the **`Required User Inputs`** section below
 2. Populate the **`Optional User Inputs`** section below if you'd like to only see results within a certain timeframe  
-3. Click the **`Show me all possible flights!`** button to kick-off the data pull. Note each iteration takes about 30 seconds to run so keep an eye on the status bar 
+3. Click the **`Show me all possible flights!`** button to kick-off the data pull. Note each iteration takes about **50 seconds** to run so keep an eye on the status bar 
 """)
 
 st.write("""
