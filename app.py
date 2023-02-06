@@ -71,10 +71,10 @@ if download:
 
     csv = df_download.to_csv()
     b64 = base64.b64encode(csv.encode()).decode()  # some strings
-    linko = f'<a href="data:file/csv;base64,{b64}" download="Ingredients_list.csv">Download full csv file</a>'
+    linko = f'<a href="data:file/csv;base64,{b64}" download="flight_permutations.csv">Download full csv file</a>'
     st.markdown(linko, unsafe_allow_html=True)
-    st.warning('⚠ Ingredient quantities follow serving size shown in the URL you provide so be mindful of this!')
+    st.warning("⚠ Be sure to grab the URL under the **kayak_search_url** column if the quickest and/or cheapest URLs don't work!")
     st.write("""
-    • Ingredient shopping list below and available in csv format when clicking "Download full csv file" URL above:
+    • All flight permutations below and available in csv format when clicking "Download full csv file" URL above:
     """)
     st.dataframe(df_download)
