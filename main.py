@@ -9,7 +9,8 @@ from selenium import webdriver
 from datetime import datetime
 from time import sleep
 from random import randint
-from tqdm import tqdm
+from stqdm import stqdm
+# from tqdm import tqdm
 
 
 ##########################
@@ -28,15 +29,15 @@ days = [3,3,2,3]
 # depart_time_interval = ['1000','2000']
 # arrive_time_interval = ['1000','2000']
 
-takeoff_constraint = 'takeoff=0900,2000__0900,2000__0900,2000__0900,2000__0900,2000'
-landing_constraint = 'landing=1000,2000__1000,2000__1000,2000__1000,2000__1000,1700'
+# takeoff_constraint = '0900,2000__0900,2000__0900,2000__0900,2000__0900,2000'
+# landing_constraint = '1000,2000__1000,2000__1000,2000__1000,2000__1000,1700'
 
 
 ##########################
 ##########################
 ## Functions
 
-def generate_permutations(cities, days, start_city, end_city, start_date):
+def generate_permutations(cities, days, start_city, end_city, start_date, takeoff_constraint, landing_constraint):
     """
     Description:
     Returns a df showing all possible journeys using the user-input arguments 
@@ -54,10 +55,9 @@ def generate_permutations(cities, days, start_city, end_city, start_date):
     permutations = [
         (start_city,) + p + (end_city,) for p in itertools.permutations(cities)
     ]
-    flight_dates = pd.to_datetime(start_date) + pd.to_timedelta(
-        np.array([0] + days).cumsum(),
-        unit="D",
-    )
+
+    days = np.array([0]+days, dtype=np.float32)
+    flight_dates = pd.to_datetime(start_date) + pd.to_timedelta(np.array([0] + days).cumsum(), unit="D")
 
     # Generate the URLs
     urls = []
@@ -70,7 +70,11 @@ def generate_permutations(cities, days, start_city, end_city, start_date):
                 for s, e, fd in zip(p[:-1], p[1:], flight_dates)
             ]
         )
-        urls.append(f"https://www.kayak.com/flights/{mid_url}/?sort=bestflight_a&fs={landing_constraint};{takeoff_constraint}")
+
+        if landing_constraint in globals() and takeoff_constraint in globals():
+            urls.append(f"https://www.kayak.com/flights/{mid_url}/?sort=bestflight_a&fs=landing={landing_constraint};takeoff={takeoff_constraint}")
+        else:
+            urls.append(f"https://www.kayak.com/flights/{mid_url}/?sort=bestflight")
 
     # Generate the resulting dataframe
     return (
@@ -116,7 +120,7 @@ def scrape_permutations(executable_path, urls):
     
     dfs = []
 
-    for url in urls:
+    for url in stqdm(urls):
         try:
             requests = 0
 
@@ -224,5 +228,5 @@ def merge_dfs(df_perm, df_scrape):
 ##########################
 ## Test the functions
 
-get_ipython().run_cell_magic('time', '', "\ndf_perms = generate_permutations(cities, days, start_city, end_city, start_date)\ndf_scrape = scrape_permutations(executable_path=executable_path, urls=df_perms['kayak_search_url'].tolist())\ndf_merged = merge_dfs(df_perms, df_scrape)")
-df_merged.to_csv('flights_warsaw.csv', index=False)
+# get_ipython().run_cell_magic('time', '', "\ndf_perms = generate_permutations(cities, days, start_city, end_city, start_date)\ndf_scrape = scrape_permutations(executable_path=executable_path, urls=df_perms['kayak_search_url'].tolist())\ndf_merged = merge_dfs(df_perms, df_scrape)")
+# df_merged.to_csv('flights_warsaw.csv', index=False)
