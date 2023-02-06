@@ -4,3 +4,5 @@ selenium==4.8.0
 tqdm==4.64.1
 stqdm==0.0.5
 streamlit==0.76.0
+seleniumbase
+webdriver-manager

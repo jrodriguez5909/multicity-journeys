@@ -1,8 +1,7 @@
 import base64
-
 import streamlit as st
 
-from main import *
+from main_prod import *
 from time import sleep
 from stqdm import stqdm
 
