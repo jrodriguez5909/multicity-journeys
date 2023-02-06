@@ -30,20 +30,20 @@ from webdriver_manager.firefox import GeckoDriverManager
 ##########################
 ## User inputs
 # executable_path = '/Users/junerodriguez/Downloads/chromedriver_mac_arm64/chromedriver'
-#
-# # List the cities you want to travel to and from, how long you'd like to stay in each, and the appropriate start/end dates
-# start_city = 'Amsterdam'
-# end_city = 'Amsterdam'
-# start_date = '2023-02-14'
-#
-# cities = ['Warsaw', 'Sofia', 'Milan', 'Belgrade']
-# days = [3,3,2,3]
+
+# List the cities you want to travel to and from, how long you'd like to stay in each, and the appropriate start/end dates
+start_city = 'Amsterdam'
+end_city = 'Amsterdam'
+start_date = '2023-02-14'
+
+cities = ['Warsaw', 'Sofia', 'Milan', 'Belgrade']
+days = [3,3,2,3]
 
 # depart_time_interval = ['1000','2000']
 # arrive_time_interval = ['1000','2000']
 
-# takeoff_constraint = '0900,2000__0900,2000__0900,2000__0900,2000__0900,2000'
-# landing_constraint = '1000,2000__1000,2000__1000,2000__1000,2000__1000,1700'
+takeoff_constraint = '0900,2000__0900,2000__0900,2000__0900,2000__0900,2000'
+landing_constraint = '1000,2000__1000,2000__1000,2000__1000,2000__1000,1700'
 
 
 ##########################
