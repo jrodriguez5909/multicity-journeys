@@ -9,7 +9,11 @@ import streamlit as st
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeType
 from datetime import datetime
 from time import sleep
 from random import randint
@@ -97,9 +101,9 @@ def generate_permutations(cities, days, start_city, end_city, start_date, takeof
     )
 
 
-@st.experimental_singleton
-def get_driver():
-    return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+# def get_driver():
+#     return
 
 
 def scrape_permutations(urls):
@@ -133,22 +137,35 @@ def scrape_permutations(urls):
         try:
             requests = 0
 
-            options = Options()
-            options.add_argument('--disable-gpu')
-            options.add_argument('--headless')
+            # options = webdriver.ChromeOptions()
+            # options.add_argument('--disable-gpu')
+            # options.add_argument('--headless')
 
-            # agents = ["Firefox/66.0.3","Chrome/73.0.3683.68","Edge/16.16299"]
-            # chrome_options = webdriver.ChromeOptions()
-            # chrome_options.add_argument('--headless')
-            # chrome_options.add_argument('--user-agent=' + agents[(requests%len(agents))] + '"')
-            # chrome_options.add_experimental_option('useAutomationExtension', False)
+            agents = ["Firefox/66.0.3","Chrome/73.0.3683.68","Edge/16.16299"]
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--user-agent=' + agents[(requests%len(agents))] + '"')
+            chrome_options.add_experimental_option('useAutomationExtension', False)
 
             # driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=executable_path)
 
-            driver = get_driver()
+            # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
+            # driver.implicitly_wait(10)
+            # driver.get(url)
+            # st.code(driver.page_source)
+
+            # firefoxOptions = Options()
+            # firefoxOptions.add_argument("--headless")
+            # firefoxOptions.add_argument('--user-agent=' + agents[(requests % len(agents))] + '"')
+            # # firefoxOptions.add_experimental_option('useAutomationExtension', False)
+            # service = Service(GeckoDriverManager().install())
+            # driver = webdriver.Firefox(firefox_options=firefoxOptions, executable_path=service)
+
+            driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(), chrome_options=chrome_options)
+
             driver.implicitly_wait(10)
             driver.get(url)
-            st.code(driver.page_source)
+
             sleep(randint(8,10))
 
             ##################

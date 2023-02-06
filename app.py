@@ -65,7 +65,8 @@ if download:
     days_ = days_.split(",")
 
     df_perms = generate_permutations(cities=cities_, days=days_, start_city=start_city_, end_city=end_city_, start_date=start_date_, takeoff_constraint=takeoff_constraint_, landing_constraint=landing_constraint_)
-    df_scrape = scrape_permutations(executable_path, urls=df_perms['kayak_search_url'].tolist())
+    # df_scrape = scrape_permutations(executable_path, urls=df_perms['kayak_search_url'].tolist())
+    df_scrape = scrape_permutations(urls=df_perms['kayak_search_url'].tolist())
     df_download = merge_dfs(df_perms, df_scrape)
 
     csv = df_download.to_csv()
