@@ -21,27 +21,27 @@ st.write("""
 
 start_date_ = st.text_input(
                             label="""**Journey Start Date:** start date of your journey in YYYY-MM-DD format""",
-                            placeholder="2023-06-01",
+                            placeholder="2023-06-01"
                             )
 
 start_city_ = st.text_input(
                             label="""**Starting City:** city you're starting from""",
-                            placeholder="New York",
+                            placeholder="New York"
                             )
 
 end_city_ = st.text_input(
                           label="""**Ending City:** city you're ending in - note this is likely the same as Starting City""",
-                          placeholder="New York",
+                          placeholder="New York"
                           )
 
 cities_ = st.text_input(
                         label="""**Destinations:** all of your desired destinations in this journey (separated by commas)""",
-                        placeholder="Chicago,Atlanta,Hong Kong",
+                        placeholder="Chicago,Atlanta,Hong Kong"
                         )
 
 days_ = st.text_input(
                       label="""**Days Visiting:** number of days you'll stay in each of the above destinations (separated by commas)""",
-                      placeholder="3,2,7 (meaning 3 days in Chicago, 2 days in Atlanta, and 7 days in Hong Kong)",
+                      placeholder="3,2,7 (meaning 3 days in Chicago, 2 days in Atlanta, and 7 days in Hong Kong)"
                       )
 
 st.write("""
