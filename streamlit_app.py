@@ -24,6 +24,17 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
+def delete_selenium_log():
+    if os.path.exists('selenium.log'):
+        os.remove('selenium.log')
+
+
+def show_selenium_log():
+    if os.path.exists('selenium.log'):
+        with open('selenium.log') as f:
+            content = f.read()
+            st.code(content)
+
 
 def generate_permutations(cities, days, start_city, end_city, start_date, takeoff_constraint, landing_constraint):
     """
@@ -117,124 +128,112 @@ def scrape_permutations(urls):
 
     dfs = []
 
-    for url in stqdm(urls):
-        try:
-            requests = 0
-            #
-            # agents = ["Firefox/66.0.3", "Chrome/73.0.3683.68", "Edge/16.16299"]
-            # chrome_options = webdriver.ChromeOptions()
-            # chrome_options.add_argument('--headless')
-            # chrome_options.add_argument('--user-agent=' + agents[(requests % len(agents))] + '"')
-            # chrome_options.add_experimental_option('useAutomationExtension', False)
-            #
-            # driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(),
-            #                           chrome_options=chrome_options)
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-features=NetworkService")
+    options.add_argument("--window-size=1920x1080")
+    options.add_argument("--disable-features=VizDisplayCompositor")
 
-            # options = Options()
-            # options.add_argument("--headless")
-            # options.add_argument("--no-sandbox")
-            # options.add_argument("--disable-dev-shm-usage")
-            # options.add_argument("--disable-gpu")
-            # options.add_argument("--disable-features=NetworkService")
-            # options.add_argument("--window-size=1920x1080")
-            # options.add_argument("--disable-features=VizDisplayCompositor")
+    with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
+        for url in stqdm(urls):
+            try:
+                requests = 0
+                #
+                # agents = ["Firefox/66.0.3", "Chrome/73.0.3683.68", "Edge/16.16299"]
+                # chrome_options = webdriver.ChromeOptions()
+                # chrome_options.add_argument('--headless')
+                # chrome_options.add_argument('--user-agent=' + agents[(requests % len(agents))] + '"')
+                # chrome_options.add_experimental_option('useAutomationExtension', False)
+                #
+                # driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(),
+                #                           chrome_options=chrome_options)
 
-            options = webdriver.ChromeOptions()
-            options.add_argument("--headless")
-            options.add_argument("--no-sandbox")
-            options.add_argument("--disable-dev-shm-usage")
-            options.add_argument("--disable-gpu")
-            options.add_argument("--disable-features=NetworkService")
-            options.add_argument("--window-size=1920x1080")
-            options.add_argument("--disable-features=VizDisplayCompositor")
+                driver.implicitly_wait(10)
+                driver.get(url)
 
-            # driver = webdriver.Chrome(chrome_options=options)
-            driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(),
-                                      chrome_options=options)
+                sleep(randint(8, 10))
 
-            driver.implicitly_wait(10)
-            driver.get(url)
-
-            sleep(randint(8, 10))
-
-            ##################
-            ##################
-            # Get prices:
-            # prices = driver.find_elements_by_xpath(xp_prices)
-            prices = driver.find_elements(by=By.XPATH, value=xp_prices)
-            prices_list = [price.text.replace('$', '') for price in prices if price.text != '']
-            prices_list = [price.replace(',', '') for price in prices_list]
-            prices_list = list(map(float, prices_list))
-
-            if not prices_list:
-                # prices = driver.find_elements_by_xpath(xp_prices_2)
-                prices = driver.find_elements(by=By.XPATH, value=xp_prices_2)
+                ##################
+                ##################
+                # Get prices:
+                # prices = driver.find_elements_by_xpath(xp_prices)
+                prices = driver.find_elements(by=By.XPATH, value=xp_prices)
                 prices_list = [price.text.replace('$', '') for price in prices if price.text != '']
                 prices_list = [price.replace(',', '') for price in prices_list]
                 prices_list = list(map(float, prices_list))
-            else:
-                prices_list
 
-            ##################
-            ##################
-            # Get links:
-            data = []
-            # elems = driver.find_elements_by_xpath(xp_urls)
-            elems = driver.find_elements(by=By.XPATH, value=xp_urls)
+                if not prices_list:
+                    # prices = driver.find_elements_by_xpath(xp_prices_2)
+                    prices = driver.find_elements(by=By.XPATH, value=xp_prices_2)
+                    prices_list = [price.text.replace('$', '') for price in prices if price.text != '']
+                    prices_list = [price.replace(',', '') for price in prices_list]
+                    prices_list = list(map(float, prices_list))
+                else:
+                    prices_list
 
-            for elem in elems:
-                data.append(elem.get_attribute("href"))
-
-            if not data:
-                # elems = driver.find_elements_by_xpath(xp_urls_2)
-                elems = driver.find_elements(by=By.XPATH, value=xp_urls_2)
+                ##################
+                ##################
+                # Get links:
+                data = []
+                # elems = driver.find_elements_by_xpath(xp_urls)
+                elems = driver.find_elements(by=By.XPATH, value=xp_urls)
 
                 for elem in elems:
                     data.append(elem.get_attribute("href"))
-            else:
-                data
 
-            df_elem = pd.DataFrame(data, columns=['Links'])
+                if not data:
+                    # elems = driver.find_elements_by_xpath(xp_urls_2)
+                    elems = driver.find_elements(by=By.XPATH, value=xp_urls_2)
 
-            ##################
-            ##################
-            # Make df and append to list:
-            try:
-                quickest_price = prices_list[0] if prices_list[0] else 'Not Available'
-            except (IndexError, KeyError, ValueError):
-                quickest_price = 'Not Available'
+                    for elem in elems:
+                        data.append(elem.get_attribute("href"))
+                else:
+                    data
 
-            try:
-                cheapest_price = prices_list[1] if prices_list[1] else 'Not Available'
-            except (IndexError, KeyError, ValueError):
-                cheapest_price = 'Not Available'
+                df_elem = pd.DataFrame(data, columns=['Links'])
 
-            try:
-                quickest_link = df_elem['Links'][0] if df_elem['Links'][0] else 'Not Available'
-            except (IndexError, KeyError, ValueError):
-                quickest_link = 'Not Available'
+                ##################
+                ##################
+                # Make df and append to list:
+                try:
+                    quickest_price = prices_list[0] if prices_list[0] else 'Not Available'
+                except (IndexError, KeyError, ValueError):
+                    quickest_price = 'Not Available'
 
-            try:
-                cheapest_link = df_elem['Links'][1] if df_elem['Links'][1] else 'Not Available'
-            except (IndexError, KeyError, ValueError):
-                cheapest_link = 'Not Available'
+                try:
+                    cheapest_price = prices_list[1] if prices_list[1] else 'Not Available'
+                except (IndexError, KeyError, ValueError):
+                    cheapest_price = 'Not Available'
 
-            new_df = pd.DataFrame({'kayak_search_url': [url],
-                                   'quickest_price': [quickest_price],
-                                   'cheapest_price': [cheapest_price],
-                                   'quickest_link': [quickest_link],
-                                   'cheapest_link': [cheapest_link]})
+                try:
+                    quickest_link = df_elem['Links'][0] if df_elem['Links'][0] else 'Not Available'
+                except (IndexError, KeyError, ValueError):
+                    quickest_link = 'Not Available'
 
-            driver.close()
+                try:
+                    cheapest_link = df_elem['Links'][1] if df_elem['Links'][1] else 'Not Available'
+                except (IndexError, KeyError, ValueError):
+                    cheapest_link = 'Not Available'
 
-            dfs.append(new_df)
+                new_df = pd.DataFrame({'kayak_search_url': [url],
+                                       'quickest_price': [quickest_price],
+                                       'cheapest_price': [cheapest_price],
+                                       'quickest_link': [quickest_link],
+                                       'cheapest_link': [cheapest_link]})
 
-        except IndexError:
-            pass
+                driver.close()
 
-    total_df = pd.concat(dfs).reset_index(drop=True)
+                dfs.append(new_df)
 
-    return total_df
+            except IndexError:
+                pass
+
+        total_df = pd.concat(dfs).reset_index(drop=True)
+
+        return total_df
 
 
 def merge_dfs(df_perm, df_scrape):
