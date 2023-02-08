@@ -143,25 +143,24 @@ def scrape_permutations(urls):
         try:
             requests = 0
 
-            # options = webdriver.ChromeOptions()
-            # options.add_argument('--disable-gpu')
-            # options.add_argument('--headless')
-
             agents = ["Firefox/66.0.3","Chrome/73.0.3683.68","Edge/16.16299"]
             chrome_options = webdriver.ChromeOptions()
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--user-agent=' + agents[(requests%len(agents))] + '"')
             chrome_options.add_experimental_option('useAutomationExtension', False)
 
-            # driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=executable_path)
-            # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
             driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(), chrome_options=chrome_options)
 
-            # firefoxOptions = Options()
-            # firefoxOptions.add_argument("--headless")
-            # service = Service(GeckoDriverManager().install())
-            # driver = webdriver.Firefox(firefox_options=firefoxOptions, service=service)
-            # driver = webdriver.Firefox(GeckoDriverManager().install(), firefox_options=firefoxOptions)
+            # options = Options()
+            # options.add_argument("--headless")
+            # options.add_argument("--no-sandbox")
+            # options.add_argument("--disable-dev-shm-usage")
+            # options.add_argument("--disable-gpu")
+            # options.add_argument("--disable-features=NetworkService")
+            # options.add_argument("--window-size=1920x1080")
+            # options.add_argument("--disable-features=VizDisplayCompositor")
+            #
+            # driver = webdriver.Chrome(options=options)
 
             driver.implicitly_wait(10)
             driver.get(url)
