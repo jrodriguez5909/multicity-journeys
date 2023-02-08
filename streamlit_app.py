@@ -139,7 +139,9 @@ def scrape_permutations(urls):
             options.add_argument("--window-size=1920x1080")
             options.add_argument("--disable-features=VizDisplayCompositor")
 
-            driver = webdriver.Chrome(chrome_options=options)
+            # driver = webdriver.Chrome(chrome_options=options)
+            driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(),
+                                      chrome_options=options)
 
             driver.implicitly_wait(10)
             driver.get(url)
